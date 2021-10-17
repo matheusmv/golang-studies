@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -41,5 +42,7 @@ func main() {
 	routes.HandleFunc("/books/{id}", bookResources.UpdateBook).Methods("PUT")
 	routes.HandleFunc("/books/{id}", bookResources.DeleteBook).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":8080", routes))
+	port := fmt.Sprintf(":%d", appConfig.Server.Port)
+
+	log.Fatal(http.ListenAndServe(port, routes))
 }
