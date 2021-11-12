@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
+	"path"
 	"text/template"
 )
 
@@ -13,18 +14,25 @@ type secret struct {
 
 func main() {
 	secret := secret{"Wallace", "I'm a ninja"}
+	file := "template.txt"
 
-	templatePath := "/home/matheus/Documents/Golang/12 - text template/template.txt"
-
-	t, err := template.New("template.txt").ParseFiles(templatePath)
+	currentDir, err := os.Getwd()
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err.Error())
+	}
+
+	templatePath := path.Join(currentDir, file)
+
+	t, err := template.New(file).ParseFiles(templatePath)
+
+	if err != nil {
+		log.Fatal(err.Error())
 	}
 
 	err = t.Execute(os.Stdout, secret)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err.Error())
 	}
 }
